@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets'
+import BaseLayout from '@/layouts/BaseLayout'
+import '@fancyapps/ui/dist/fancybox/fancybox.css'
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	'../assets/images/albums/*.{jpg,jpeg,png,webp}'
+)
+---
+
+<BaseLayout title='Album' description='Photo gallery showcasing my personal photography collection'>
+	<section class='justified-gallery' id='photoswipe'>
+		{
+			Object.entries(images).map(async ([_path, image], index) => {
+				const { default: imageData } = await image()
+				return (
+					<a
+						style={`--width: ${imageData.width}; --height: ${imageData.height};`}
+						href={imageData.src}
+						data-fancybox='gallery'
+					>
+						<Image
+							format='webp'
+							src={imageData}
+							alt=''
+							height={400}
+							loading={index < 20 ? 'eager' : 'lazy'}
+						/>
+					</a>
+				)
+			})
+		}
+	</section>
+</BaseLayout>
+
+<script>
+	import { Fancybox } from '@fancyapps/ui/dist/fancybox/'
+
+	function initializeFancybox() {
+		// Destroy any existing instances first
+		Fancybox.destroy()
+
+		// Bind Fancybox to all gallery items
+		Fancybox.bind('[data-fancybox]', {
+			theme: 'auto',
+			mainStyle: {
+				'--f-button-width': '44px',
+				'--f-button-height': '44px',
+				'--f-button-border-radius': '50%',
+				'--f-toolbar-padding': '16px'
+			},
+			Carousel: {
+				Arrows: false,
+				Toolbar: {
+					display: {
+						left: [],
+						middle: [],
+						right: ['close']
+					}
+				},
+				transition: 'slide'
+			}
+		})
+	}
+
+	// Initialize on first load
+	initializeFancybox()
+
+	// Re-initialize after View Transitions navigation
+	document.addEventListener('astro:page-load', initializeFancybox)
+</script>
+
+<style>
+	.justified-gallery {
+		--padding: max(2.5vw, 12px);
+		--space: max(2.5vw, 12px);
+		--min-height: clamp(200px, 20vw, 400px);
+
+		padding: var(--padding);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space);
+	}
+
+	.justified-gallery a {
+		flex-grow: calc(var(--width) * (100000 / var(--height)));
+		flex-basis: calc(var(--min-height) * (var(--width) / var(--height)));
+		aspect-ratio: var(--width) / var(--height);
+		overflow: hidden;
+		opacity: 1;
+		transition: all 0.05s ease-in-out;
+	}
+
+	.justified-gallery a img {
+		display: block;
+		object-fit: cover;
+		height: 100%;
+		width: 100%;
+	}
+
+	.justified-gallery a:focus-visible {
+		outline: 3px solid var(--outline);
+		outline-offset: 2px;
+		transform: scale(1.05);
+		z-index: 1;
+		border-radius: 2px;
+		box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+	}
+
+	.justified-gallery a.hidden {
+		transition: opacity 0.4s ease-in-out;
+		opacity: 0;
+	}
+
+	.justified-gallery::after {
+		content: ' ';
+		flex-grow: 1000000000;
+	}
+</style>

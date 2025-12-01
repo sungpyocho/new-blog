@@ -1,0 +1,36 @@
+---
+title: 'Instantaneous phase and frequency'
+description: 'In this article, we will discuss the concept of instantaneous phase and frequency and how it is used in signal processing.'
+pubDate: 'Dec 01 2025'
+heroImage: '../../assets/images/statistical-signal-processing.png'
+category: 'Tech'
+tags: ['Signal Processing']
+---
+
+순간 주파수(Instantaneous frequency)와 순간 위상(Instantaneous phase)은 선형 주파수 변조 신호와 같이 시간에 따라 변화하는 신호를 표현하고 분석하는 데 중요한 개념이다. 순간 위상은 지역 위상, 혹은 단순히 위상이라고도 한다. 순간 주파수는 순간 위상의 시간에 따른 변화율으로, 다음과 같이 위상을 시간에 대해 미분한 값으로 정의된다.
+
+## 위상 -> 주파수의 관계
+
+$$
+f(t) = \frac{1}{2\pi}\left[\frac{d\phi}{dt}\right ]_t
+$$
+
+도대체 왜, 위상을 시간에 대해 미분하면 주파수가 나오는 걸까. 미분값, 즉 시간 단위당 위상의 변화량은 파동이 얼마나 빨리 진행되는지를 의미한다. 예를 들어 위상의 빨리 변화하고 있다는 것은 파동이 빨리 진행되고 있다는 것을 의미하고, 이는 주파수도 높다는 것을 의미한다. 따라서 순간 주파수는 파동이 얼마나 변화하는지를 나타내며, 이는 시간 단위당 위상의 변화량과 같은 뜻이 된다.
+
+다만 한 가지, 주파수의 단위를 조심해야 한다. 사실 위상의 시간에 대한 미분 $$d \phi(t)/{dt}$$는 그 시점의 순간 '각주파수'를 제공한다. 이 미분값은 각도인 라디안 단위로 표현되는데, 이를 Hz 단위로 바꾸기 위해서는 위 식과 같이 $$1/{2\pi}$$를 곱해줘야 한다.
+
+예시를 들어보자. $$\cos(\phi(t))=\cos(2\pi f_0 t)$$의 순간 주파수는
+
+$$
+f = \frac{d\phi (t)}{2\pi dt}  = f_0
+$$
+
+## 주파수 -> 위상의 관계
+
+위상에서 순간 주파수를 구하듯, 순간 주파수를 적분하면 위상을 구할 수 있다. 식으로는 이렇게 쓸 수 있다.
+
+$$
+\phi(t) = 2 \pi \int_0^t f(u)\,du
+$$
+
+이 관계는 선형 주파수 변조 신호와 펄스 압축에서 중요하게 다루어지니, 꼭 기억하자.

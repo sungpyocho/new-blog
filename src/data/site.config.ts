@@ -10,12 +10,12 @@ interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-	site: 'https://blog-template-gray.vercel.app/', // Write here your website url
-	author: 'Your Name', // Site author
-	title: 'Astro Theme OpenBlog', // Site title.
-	description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', // Description to display in the meta tags
-	lang: 'en-GB',
-	ogLocale: 'en_GB',
+	site: 'https://sungpyo.dev', // Write here your website url
+	author: 'Pyo', // Site author
+	title: 'pyo.blog', // Site title.
+	description: '나의 블로그', // Description to display in the meta tags
+	lang: 'ko-KR',
+	ogLocale: 'ko_KR',
 	shareMessage: 'Share this post', // Message to share a post on social media
 	paginationSize: 6 // Number of posts per page
 }
