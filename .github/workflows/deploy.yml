@@ -37,8 +37,8 @@ jobs:
       
       # 6. S3에 업로드 (기존 파일 삭제 후 동기화)
       - name: Deploy to S3
-        run: aws s3 sync --delete ./dist/ s3://${{ secrets.BUCKET_ID }}
+        run: aws s3 sync --delete ./dist/ s3://${{ secrets.S3_BUCKET_NAME }}
       
       # 7. CloudFront 무효화(새 글이 바로 보이도록)
       - name: Create CloudFront invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} --paths "/*"
