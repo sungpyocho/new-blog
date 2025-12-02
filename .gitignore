@@ -24,3 +24,9 @@ pnpm-debug.log*
 .DS_Store
 
 node_modules
+
+# terraform
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup

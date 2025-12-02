@@ -1,0 +1,44 @@
+name: Deploy to S3 & CloudFront
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 코드 가져오기
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # 2. AWS 인증 설정
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      
+      # 3. pnpm 설치
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      # 4. 모듈 설치
+      - name: Install modules
+        run: pnpm install
+
+      # 5. 빌드
+      - name: Build application
+        run: pnpm run build
+      
+      # 6. S3에 업로드 (기존 파일 삭제 후 동기화)
+      - name: Deploy to S3
+        run: aws s3 sync --delete ./dist/ s3://${{ secrets.BUCKET_ID }}
+      
+      # 7. CloudFront 무효화(새 글이 바로 보이도록)
+      - name: Create CloudFront invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"

@@ -23,7 +23,8 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 							format='webp'
 							src={imageData}
 							alt=''
-							height={400}
+							height={800}
+							quality={90}
 							loading={index < 20 ? 'eager' : 'lazy'}
 						/>
 					</a>
@@ -96,6 +97,20 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 		object-fit: cover;
 		height: 100%;
 		width: 100%;
+		/* Prevent image dragging */
+		-webkit-user-drag: none;
+		-khtml-user-drag: none;
+		-moz-user-drag: none;
+		-o-user-drag: none;
+		user-drag: none;
+		/* Prevent selection */
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	/* Disable right click on the gallery */
+	.justified-gallery {
+		-webkit-touch-callout: none;
 	}
 
 	.justified-gallery a:focus-visible {
@@ -117,3 +132,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 		flex-grow: 1000000000;
 	}
 </style>
+
+<script>
+	// Prevent right-click on images
+	document.addEventListener('contextmenu', (event) => {
+		if ((event.target as HTMLElement).tagName === 'IMG') {
+			event.preventDefault()
+		}
+	})
+</script>
