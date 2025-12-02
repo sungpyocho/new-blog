@@ -1,5 +1,5 @@
-import GithubIcon from '@/components/icons/GithubIcon'
-import LinkedInIcon from '@/components/icons/LinkedInIcon'
+import GithubIcon from '../components/icons/GithubIcon.astro'
+import LinkedinIcon from '../components/icons/LinkedinIcon.astro'
 
 // ADD YOUR SOCIAL NETWORKS HERE
 export const SOCIALNETWORKS = [
@@ -12,6 +12,6 @@ export const SOCIALNETWORKS = [
 	{
 		name: 'LinkedIn',
 		url: 'https://www.linkedin.com/in/sungpyo-cho/',
-		icon: LinkedInIcon
+		icon: LinkedinIcon
 	}
 ] as const
